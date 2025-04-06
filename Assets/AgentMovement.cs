@@ -1,28 +1,29 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class AgentMovement : MonoBehaviour
 {
-    public GameObject target;
     public NavMeshAgent agent;
-
+    public Outline outline;
+    
     public float goSpeed = 1;
     public float rotateSpeed = 0;
 
-    private void Start()
-    {
-        //agent.
-    }
-
-
     private float lastRotationY;
-    void Update()
+    private void Update()
     {
-        agent.SetDestination(target.transform.position);
-
         agent.speed = (Mathf.Abs(transform.eulerAngles.y - lastRotationY) > 0.5f) ? rotateSpeed : goSpeed;
         
         lastRotationY = transform.rotation.eulerAngles.y;
+    }
+
+    public void SetTarget(Vector3 target)
+    {
+        agent.SetDestination(target);
+    }
+    
+    public void SetOutline(bool value)
+    {
+        outline.enabled = value;
     }
 }
