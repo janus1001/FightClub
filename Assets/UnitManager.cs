@@ -37,9 +37,9 @@ public class UnitManager : MonoBehaviour
             }
         }
         
+        RaycastHit hit;
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Unit")))
             {
@@ -50,10 +50,6 @@ public class UnitManager : MonoBehaviour
                     SelectUnit(unit);
                 }
             }
-            else if (Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Default")))
-            {
-                SelectedUnits.ForEach(unit => unit.SetTarget(hit.point));
-            }
             else
             {
                 UnselectAll();
@@ -63,7 +59,11 @@ public class UnitManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            UnselectAll();
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Default")))
+            {
+                SelectedUnits.ForEach(unit => unit.SetTarget(hit.point));
+            }
         }
     }
 
